@@ -5,13 +5,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {   
-    protected $fileable = ['name', 'manager_name', 'phone_number', 'postal_code', 'prefecture_code', 'address', 'mail_address', 'prefix'];
     const CREATED_AT = NULL;
     const UPDATED_AT = NULL;
+    public $companiesCount;
 
-    public function getAll()
-    {
-        return Company::where('deleted', NULL)->get();
+    public function __construct() {
+        $this->companiesCount = Company::whereNull('deleted')->count();
+    }
+
+    public function getData($name)
+    {   
+        if ($name) {
+            $name = "%{$name}%";
+            return $this->where('name', 'LIKE', $name)->whereNull('deleted')->select('id', 'name', 'manager_name', 'phone_number', 'postal_code', 'prefecture_code', 'address', 'mail_address')->paginate(10);
+        }
+        return $this->whereNull('deleted')->select('id', 'name', 'manager_name', 'phone_number', 'postal_code', 'prefecture_code', 'address', 'mail_address')->paginate(10);
+    }
+
+    public function filterData($name)
+    {   
+        return $this->where('name', 'like', '%name%')->select('id', 'name', 'manager_name', 'phone_number', 'postal_code', 'prefecture_code', 'address', 'mail_address')->offset($offset)->limit(10)->get();
     }
 
     public function create($request)
@@ -26,7 +39,7 @@ class Company extends Model
             'mail_address' => 'required|max:100|regex:/^[a-zA-Z0-9_+-]+(\.[a-zA-Z0-9_+-]+)*@[a-zA-Z0-9_+-]+(\.[a-zA-Z0-9_+-]+)*$/',
             'prefix' => 'required|regex:/^[a-zA-Z0-9]{1,8}$/'
         ]);
-        Company::insert(['name' => $request->get('name'),
+        $this->insert(['name' => $request->get('name'),
             'manager_name' => $request->get('manager_name'),
             'phone_number' => $request->get('phone_number'),
             'postal_code' => $request->get('postal_code'),
@@ -42,18 +55,18 @@ class Company extends Model
 
     public function softDelete($request)
     {
-        Company::where('id', $request->get('id'))->update(['deleted' => NOW(), 'modified' => NOW()]);
+        $this->where('id', $request->get('id'))->update(['deleted' => NOW(), 'modified' => NOW()]);
         return;
     }
 
     public function getDetail($id)
     {
-        return Company::where('id', $id)->get();
+        return $this->where('id', $id)->get();
     }
 
     public function updateDetail($id, $request)
     {
-        Company::where('id', $id)->update(['name' => $request->get('name'),
+        $this->where('id', $id)->update(['name' => $request->get('name'),
             'manager_name' => $request->get('manager_name'),
             'phone_number' => $request->get('phone_number'),
             'postal_code' => $request->get('postal_code'),
