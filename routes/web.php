@@ -18,10 +18,10 @@ Route::get('/', function () {
 });
 
 Route::controller(CompanyController::class)->group(function () {
-    Route::get('/companies/{page?}', 'getCompanies')->where('page', '[1-9]*\d+');
-    Route::view('/companies/register', 'register');
+    Route::view('/companies/register', 'register')->name('register');
+    Route::post('/companies/delete', 'delete')->name('delete');
+    Route::get('/companies/detail/{id}', 'edit')->name('detail');
+    Route::post('/companies/detail/{id}', 'update');
     Route::post('/companies/register', 'store');
-    Route::post('/companies/delete', 'delete');
-    Route::get('/companies/id/{id}', 'edit');
-    Route::post('/companies/id/{id}', 'update');
+    Route::get('/companies/{name?}', 'getCompanies')->name('companies');
 });
