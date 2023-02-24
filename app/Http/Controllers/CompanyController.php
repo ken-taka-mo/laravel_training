@@ -7,10 +7,11 @@ use App\Models\Company;
 
 class CompanyController extends Controller
 {
-    public function getAllCompany() {  
-      $company = new Company;    
-      $companies = $company->getAll();
-      return view('company', compact('companies'));
+    public function getCompanies(Request $request) {
+      $name = $request['name'];
+      $company = new Company;
+      $companies = $company->getData($name);
+      return view('company', compact('companies', 'name'));
     }
     
     public function store(Request $request) {
@@ -27,7 +28,7 @@ class CompanyController extends Controller
 
     public function edit($id) {
       $company = new Company;
-      $detail = $company-> getDetail($id);
+      $detail = $company->getDetail($id);
       return view('edit', compact('detail'));
     }
 
