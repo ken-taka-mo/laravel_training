@@ -1,5 +1,5 @@
 <?php
-require_once('../public/utils/prefectures.php');
+$prefectures = config('prefectures');
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -8,7 +8,7 @@ require_once('../public/utils/prefectures.php');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>会社編集</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <main class="edit-page">
@@ -17,7 +17,7 @@ require_once('../public/utils/prefectures.php');
                 <h1>会社編集</h1>
                 <a href="{{ url('companies') }}" class="btn-back">戻る</a>
             </div>
-            <form action="{{ url('companies', $detail[0]['id']) }}" method="POST" class="edit-form">
+            <form action="" method="POST" class="edit-form">
                 @csrf
                 <div class="form-items">
                     <div class="item">
@@ -50,9 +50,9 @@ require_once('../public/utils/prefectures.php');
                                 <select name="prefecture_code">
                                     @for ($i = 1; $i <= 47; $i++)
                                         @if ($detail[0]['prefecture_code'] == $i)
-                                            <option value={{$i}} selected>{{PREFECTURES[$i]}}</option>
+                                            <option value={{$i}} selected>{{$prefectures[$i]}}</option>
                                         @else
-                                            <option value={{$i}}>{{PREFECTURES[$i]}}</option>
+                                            <option value={{$i}}>{{$prefectures[$i]}}</option>
                                         @endif
                                     @endfor
                                 </select>
