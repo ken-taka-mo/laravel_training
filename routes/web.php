@@ -17,9 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/companies', [CompanyController::class, 'getAllCompany']);
-Route::view('/companies/register', 'register');
-Route::post('/companies/register', [CompanyController::class, 'store']);
-Route::post('/companies/delete', [CompanyController::class, 'delete']);
-Route::get('/companies/{id}', [CompanyController::class, 'edit']);
-Route::post('/companies/{id}', [CompanyController::class, 'update']);
+Route::controller(CompanyController::class)->group(function () {
+    Route::get('/companies/{page?}', 'getCompanies')->where('page', '[1-9]*\d+');
+    Route::view('/companies/register', 'register');
+    Route::post('/companies/register', 'store');
+    Route::post('/companies/delete', 'delete');
+    Route::get('/companies/id/{id}', 'edit');
+    Route::post('/companies/id/{id}', 'update');
+});
