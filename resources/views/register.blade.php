@@ -1,5 +1,5 @@
 <?php
-require_once('../public/utils/prefectures.php');
+$prefectures = config('prefectures');
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -56,9 +56,9 @@ require_once('../public/utils/prefectures.php');
                                     <option value="">選択してください</option>
                                     @for ($i = 1; $i <= 47; $i++)
                                         @if ($i ==  old('prefecture_code'))
-                                            <option value={{$i}} selected>{{PREFECTURES[$i]}}</option>
+                                            <option value={{$i}} selected>{{$prefectures[$i]}}</option>
                                         @else
-                                            <option value={{$i}}>{{PREFECTURES[$i]}}</option>
+                                            <option value={{$i}}>{{$prefectures[$i]}}</option>
                                         @endif
                                     @endfor
                                 </select>
