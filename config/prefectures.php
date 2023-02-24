@@ -1,5 +1,5 @@
 <?php
-const PREFECTURES = [
+return [
     '1'=>'北海道',
     '2'=>'青森県',
     '3'=>'岩手県',
