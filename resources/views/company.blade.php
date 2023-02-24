@@ -1,5 +1,5 @@
 <?php
-require_once('../public/utils/prefectures.php');
+$prefectures = config('prefectures');
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -17,10 +17,11 @@ require_once('../public/utils/prefectures.php');
                 <h1>会社一覧</h1>
             </div>
             <div class="menu">
-                <a class="btn" href="companies/register">新規登録</a>
-                <form>
-                    <input type="text" class="search-form" name="name">
+                <a class="btn" href="{{route('register')}}">新規登録</a>
+                <form action="{{route('companies')}}" method="GET">
+                    <input type="text" class="search-form" name="name" value={{$name}}>
                     <input class="btn-search" type="submit" value="検索">
+                    <a  class="btn-back clear" href="{{route('companies')}}">条件クリア</a>
                 </form>
             </div>
             <div class="table-wrapper">
@@ -43,12 +44,12 @@ require_once('../public/utils/prefectures.php');
                         <td class="t-name">{{$company['name']}}</td>
                         <td class="t-manager">{{$company['manager_name']}}</td>
                         <td class="t-tel">{{$company['phone_number']}}</td>
-                        <td class="t-address">〒{{substr_replace($company['postal_code'], '-', 3, 0)}}<br>{{PREFECTURES[$company['prefecture_code']]}}{{$company['address']}}</td>
+                        <td class="t-address">〒{{substr_replace($company['postal_code'], '-', 3, 0)}}<br>{{$prefectures[$company['prefecture_code']]}}{{$company['address']}}</td>
                         <td class="t-mail">{{$company['mail_address']}}</td>
                         <td class="link to-list"><a>見積一覧</a></td>
                         <td class="link to-list"><a>請求一覧</a></td>
-                        <td class="link"><a href="{{ url('companies', $company['id']) }}">編集</a></td>
-                        <form action="{{url('companies/delete')}}" method="POST">
+                        <td class="link"><a href="{{ route('detail', $company['id']) }}">編集</a></td>
+                        <form action="{{route('delete')}}" method="POST">
                             @csrf
                             <input type="hidden" name="id" value="{{$company['id']}}">
                             <td class="link btn-delete"><input type="submit" value="削除"></td>
@@ -57,10 +58,7 @@ require_once('../public/utils/prefectures.php');
                     @endforeach
                 </table>
             </div>
-            <div class="page-navigation">
-                <a class="next p-nav">次へ<span>&rarr;</span></a>
-                <a class="prev p-nav"><span>&larr;</span>前へ</a>
-            </div>
+            {{$companies->appends(['name' => $name])->links()}}
         </div>
     </main>
 </body>
