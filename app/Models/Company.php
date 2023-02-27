@@ -68,13 +68,13 @@ class Company extends Model
 
     public function updateDetail($id, $request)
     {
-        $this->where('id', $id)->update(['name' => $request->get('name'),
-            'manager_name' => $request->get('manager_name'),
-            'phone_number' => $request->get('phone_number'),
-            'postal_code' => $request->get('postal_code'),
-            'prefecture_code' => $request->get('prefecture_code'),
-            'address'=> $request->get('address'),
-            'mail_address' => $request->get('mail_address'),
+        $this->where('id', $id)->update(['name' => $request['name'],
+            'manager_name' => $request['manager_name'],
+            'phone_number' => $request['phone_number'],
+            'postal_code' => $request['postal_code'],
+            'prefecture_code' => $request['prefecture_code'],
+            'address'=> $request['address'],
+            'mail_address' => $request['mail_address'],
             'modified' => NOW(),
         ]);
         return;
