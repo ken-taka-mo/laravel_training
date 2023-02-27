@@ -20,7 +20,11 @@ $prefectures = config('prefectures');
             <div class="table-wrapper">
                 <table>
                     <tr class="list-title title">
-                        <th class="order t-id">会社番号</th>
+                        @if ($order)
+                            <th class="order t-id"><a href="{{route('companies', ['name' => $name])}}">会社番号 ▼</a></th>
+                        @else
+                            <th class="order t-id"><a href="{{route('companies', ['order' => 'desc', 'name' => $name])}}">会社番号 ▼</a></th>
+                        @endif
                         <th class="t-name">会社名</th>
                         <th class="t-manager">担当者名</th>
                         <th class="t-tel">電話番号</th>
@@ -51,7 +55,7 @@ $prefectures = config('prefectures');
                     @endforeach
                 </table>
             </div>
-            {{$companies->appends(['name' => $name])->links()}}
+            {{$companies->appends(['order' => $order, 'name' => $name])->links()}}
         </div>
     </main>
 </body>
