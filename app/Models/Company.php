@@ -25,13 +25,23 @@ class Company extends Model
         $this->companiesCount = Company::whereNull('deleted')->count();
     }
 
-    public function getData($name)
+    public function getData($order, $name)
     {   
+        if ($order != 'desc') {
+            $order = null;
+        }
         if ($name) {
             $name = "%{$name}%";
-            return $this->where('name', 'LIKE', $name)->whereNull('deleted')->select('id', 'name', 'manager_name', 'phone_number', 'postal_code', 'prefecture_code', 'address', 'mail_address')->paginate(10);
+            return $this->where('name', 'LIKE', $name)
+            ->whereNull('deleted')
+            ->select('id', 'name', 'manager_name', 'phone_number', 'postal_code', 'prefecture_code', 'address', 'mail_address')
+            ->when($order, function($query, $order) {$query->orderBy('id', $order);})
+            ->paginate(10);
         }
-        return $this->whereNull('deleted')->select('id', 'name', 'manager_name', 'phone_number', 'postal_code', 'prefecture_code', 'address', 'mail_address')->paginate(10);
+        return $this->whereNull('deleted')
+        ->select('id', 'name', 'manager_name', 'phone_number', 'postal_code', 'prefecture_code', 'address', 'mail_address')
+        ->when($order, function($query, $order) {$query->orderBy('id', $order);})
+        ->paginate(10);
     }
 
     public function filterData($name)
