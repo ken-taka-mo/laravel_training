@@ -10,9 +10,10 @@ class CompanyController extends Controller
 {
     public function getCompanies(Request $request) {
       $name = $request['name'];
+      $order = $request['order'];
       $company = new Company;
-      $companies = $company->getData($name);
-      return view('company', compact('companies', 'name'));
+      $companies = $company->getData($order, $name);
+      return view('company', compact('companies', 'name', 'order'));
     }
     
     public function store(CompanyRequest $request) {
