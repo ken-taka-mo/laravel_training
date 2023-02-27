@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
 
 class CompanyController extends Controller
@@ -14,9 +15,9 @@ class CompanyController extends Controller
       return view('company', compact('companies', 'name'));
     }
     
-    public function store(Request $request) {
+    public function store(CompanyRequest $request) {
       $company = new Company;
-      $company->create($request);
+      $company->store($request);
       return redirect('companies');
     }
 
@@ -32,9 +33,9 @@ class CompanyController extends Controller
       return view('edit', compact('detail'));
     }
 
-    public function update($id, Request $request) {
+    public function update($id, CompanyRequest $request) {
       $company = new Company;
-      $company->updateDetail($id, $request);
+      $company->updateDetail($id, $request->updateAttributes());
       return redirect('companies');
     }
     
