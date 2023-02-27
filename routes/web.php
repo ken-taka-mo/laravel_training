@@ -23,5 +23,5 @@ Route::controller(CompanyController::class)->group(function () {
     Route::get('/companies/detail/{id}', 'edit')->name('detail');
     Route::post('/companies/detail/{id}', 'update');
     Route::post('/companies/register', 'store');
-    Route::get('/companies/{name?}', 'getCompanies')->name('companies');
+    Route::get('/companies', 'getCompanies')->name('companies');
 });
