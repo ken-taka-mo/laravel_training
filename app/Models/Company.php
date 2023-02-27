@@ -8,6 +8,18 @@ class Company extends Model
     const CREATED_AT = NULL;
     const UPDATED_AT = NULL;
     public $companiesCount;
+    protected $fillable = [
+        'name', 
+        'manager_name',
+        'phone_number',
+        'postal_code',
+        'prefecture_code',
+        'address',
+        'mail_address',
+        'prefix',
+        'created',
+        'modified',
+    ];
 
     public function __construct() {
         $this->companiesCount = Company::whereNull('deleted')->count();
@@ -27,26 +39,16 @@ class Company extends Model
         return $this->where('name', 'like', '%name%')->select('id', 'name', 'manager_name', 'phone_number', 'postal_code', 'prefecture_code', 'address', 'mail_address')->offset($offset)->limit(10)->get();
     }
 
-    public function create($request)
-    {
-        $request->validate([
-            'name' => 'required|max:64',
-            'manager_name' => 'required|max:32',
-            'phone_number' => 'required|regex:/^\d{1,11}$/',
-            'postal_code' => 'required|regex:/^\d{7}$/',
-            'prefecture_code' => 'required|numeric|min:1|max:47',
-            'address'=> 'required|max:100',
-            'mail_address' => 'required|max:100|regex:/^[a-zA-Z0-9_+-]+(\.[a-zA-Z0-9_+-]+)*@[a-zA-Z0-9_+-]+(\.[a-zA-Z0-9_+-]+)*$/',
-            'prefix' => 'required|regex:/^[a-zA-Z0-9]{1,8}$/'
-        ]);
-        $this->insert(['name' => $request->get('name'),
-            'manager_name' => $request->get('manager_name'),
-            'phone_number' => $request->get('phone_number'),
-            'postal_code' => $request->get('postal_code'),
-            'prefecture_code' => $request->get('prefecture_code'),
-            'address'=> $request->get('address'),
-            'mail_address' => $request->get('mail_address'),
-            'prefix' => $request->get('prefix'),
+    public function store($request)
+    {   
+        $this->create(['name' => $request['name'],
+            'manager_name' => $request['manager_name'],
+            'phone_number' => $request['phone_number'],
+            'postal_code' => $request['postal_code'],
+            'prefecture_code' => $request['prefecture_code'],
+            'address'=> $request['address'],
+            'mail_address' => $request['mail_address'],
+            'prefix' => $request['prefix'],
             'created' => NOW(),
             'modified' => NOW(),
         ]);
