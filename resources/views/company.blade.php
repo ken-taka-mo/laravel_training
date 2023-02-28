@@ -23,7 +23,7 @@ $prefectures = config('prefectures');
                         @if ($order)
                             <th class="order t-id"><a href="{{route('companies', ['name' => $name])}}">会社番号 ▼</a></th>
                         @else
-                            <th class="order t-id"><a href="{{route('companies', ['order' => 'desc', 'name' => $name])}}">会社番号 ▼</a></th>
+                            <th class="order t-id"><a href="{{route('companies', ['order' => 'desc', 'name' => $name])}}">会社番号 ▲</a></th>
                         @endif
                         <th class="t-name">会社名</th>
                         <th class="t-manager">担当者名</th>
