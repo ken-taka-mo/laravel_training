@@ -46,7 +46,6 @@ class CompanyRequest extends FormRequest
                 'prefecture_code',
                 'address',
                 'mail_address',
-                'modified'
             ]
         );
     }
