@@ -1,9 +1,9 @@
 <?php
 $prefectures = config('prefectures');
 ?>
-@extends('common')
+@extends('layout.common')
 @section('title', '会社登録')
-<body>
+@section('contents')
     <main class="create-page">
         <div class="container">
             <div class="heading">
@@ -90,5 +90,4 @@ $prefectures = config('prefectures');
             </form>
         </div>
     </main>
-</body>
-</html>
+@endsection
