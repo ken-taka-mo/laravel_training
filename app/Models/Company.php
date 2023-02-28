@@ -1,13 +1,13 @@
 <?php
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
 {   
-    const CREATED_AT = NULL;
-    const UPDATED_AT = NULL;
-    public $companiesCount;
+    use SoftDEletes;
+    
     protected $fillable = [
         'name', 
         'manager_name',
@@ -17,36 +17,24 @@ class Company extends Model
         'address',
         'mail_address',
         'prefix',
-        'created',
-        'modified',
     ];
-
-    public function __construct() {
-        $this->companiesCount = Company::whereNull('deleted')->count();
-    }
 
     public function getData($order, $name)
     {   
         if ($order != 'desc') {
             $order = null;
         }
+
         if ($name) {
             $name = "%{$name}%";
             return $this->where('name', 'LIKE', $name)
-            ->whereNull('deleted')
             ->select('id', 'name', 'manager_name', 'phone_number', 'postal_code', 'prefecture_code', 'address', 'mail_address')
             ->when($order, function($query, $order) {$query->orderBy('id', $order);})
             ->paginate(10);
         }
-        return $this->whereNull('deleted')
-        ->select('id', 'name', 'manager_name', 'phone_number', 'postal_code', 'prefecture_code', 'address', 'mail_address')
+        return $this->select('id', 'name', 'manager_name', 'phone_number', 'postal_code', 'prefecture_code', 'address', 'mail_address')
         ->when($order, function($query, $order) {$query->orderBy('id', $order);})
         ->paginate(10);
-    }
-
-    public function filterData($name)
-    {   
-        return $this->where('name', 'like', '%name%')->select('id', 'name', 'manager_name', 'phone_number', 'postal_code', 'prefecture_code', 'address', 'mail_address')->offset($offset)->limit(10)->get();
     }
 
     public function store($request)
@@ -59,16 +47,12 @@ class Company extends Model
             'address'=> $request['address'],
             'mail_address' => $request['mail_address'],
             'prefix' => $request['prefix'],
-            'created' => NOW(),
-            'modified' => NOW(),
         ]);
-        return;
     }
 
     public function softDelete($request)
     {
-        $this->where('id', $request->get('id'))->update(['deleted' => NOW(), 'modified' => NOW()]);
-        return;
+        $this->where('id', $request->get('id'))->delete();
     }
 
     public function getDetail($id)
@@ -85,8 +69,6 @@ class Company extends Model
             'prefecture_code' => $request['prefecture_code'],
             'address'=> $request['address'],
             'mail_address' => $request['mail_address'],
-            'modified' => NOW(),
         ]);
-        return;
     }
 }
