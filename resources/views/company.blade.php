@@ -18,6 +18,7 @@ $prefectures = config('prefectures');
                 </form>
             </div>
             <div class="table-wrapper">
+                @if ($companies->total())
                 <table>
                     <tr class="list-title title">
                         @if ($order)
@@ -54,6 +55,9 @@ $prefectures = config('prefectures');
                     </tr>
                     @endforeach
                 </table>
+                @else
+                    @include('layout.nodata')
+                @endif
             </div>
             {{$companies->appends(['order' => $order, 'name' => $name])->links()}}
         </div>

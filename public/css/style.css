@@ -76,6 +76,7 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 10px;
 }
 
 .heading-right {
@@ -117,6 +118,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin: 10px 0;
 }
 
 .menu form {

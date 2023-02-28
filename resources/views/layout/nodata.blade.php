@@ -1,4 +1,3 @@
-@section('no-data')
 <table class="no-data">
     <tr>
         <th></th>
@@ -7,4 +6,3 @@
         <td>データはありません</th>
     </tr>
 </table>
-@show
