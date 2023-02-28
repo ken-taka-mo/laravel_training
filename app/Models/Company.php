@@ -19,12 +19,14 @@ class Company extends Model
         'prefix',
     ];
 
-    public function getData($order, $name)
+    // companiesテーブルのデータを取得
+    public function getCompanies($order, $name)
     {   
+        // orderパラメータがdesc以外の時はnullに
         if ($order != 'desc') {
             $order = null;
         }
-
+        // 会社名検索されているときのクエリビルダ
         if ($name) {
             $name = "%{$name}%";
             return $this->where('name', 'LIKE', $name)
@@ -36,7 +38,7 @@ class Company extends Model
         ->when($order, function($query, $order) {$query->orderBy('id', $order);})
         ->paginate(10);
     }
-
+    // 会社データ作成
     public function store($request)
     {   
         $this->create(['name' => $request['name'],
@@ -49,17 +51,19 @@ class Company extends Model
             'prefix' => $request['prefix'],
         ]);
     }
-
-    public function softDelete($request)
+    // 会社データソフトデリート
+    public function softDelete($id)
     {
-        $this->where('id', $request->get('id'))->delete();
+        $this->where('id', $id)->delete();
     }
 
+    // 特定のidのレコード取得
     public function getDetail($id)
     {
         return $this->where('id', $id)->first();
     }
 
+    // 会社データ更新
     public function updateDetail($id, $request)
     {
         $this->where('id', $id)->update(['name' => $request['name'],
