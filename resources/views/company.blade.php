@@ -10,11 +10,11 @@ $prefectures = config('prefectures');
                 <h1>会社一覧</h1>
             </div>
             <div class="menu">
-                <a class="btn" href="{{route('register')}}">新規登録</a>
-                <form action="{{route('companies')}}" method="GET">
+                <a class="btn" href="{{route('companies.create')}}">新規登録</a>
+                <form action="" method="GET">
                     <input type="text" class="search-form" name="name" value={{$name}}>
                     <input class="btn-search" type="submit" value="検索">
-                    <a  class="btn-back clear" href="{{route('companies')}}">条件クリア</a>
+                    <a  class="btn-back clear" href="{{url('companies')}}">条件クリア</a>
                 </form>
             </div>
             <div class="table-wrapper">
@@ -22,9 +22,9 @@ $prefectures = config('prefectures');
                 <table>
                     <tr class="list-title title">
                         @if ($order)
-                            <th class="order t-id"><a href="{{route('companies', ['name' => $name])}}">会社番号 ▼</a></th>
+                            <th class="order t-id"><a href="{{route('companies.index', ['name' => $name])}}">会社番号 ▼</a></th>
                         @else
-                            <th class="order t-id"><a href="{{route('companies', ['order' => 'desc', 'name' => $name])}}">会社番号 ▲</a></th>
+                            <th class="order t-id"><a href="{{route('companies.index', ['order' => 'desc', 'name' => $name])}}">会社番号 ▲</a></th>
                         @endif
                         <th class="t-name">会社名</th>
                         <th class="t-manager">担当者名</th>
@@ -46,9 +46,10 @@ $prefectures = config('prefectures');
                         <td class="t-mail">{{$company['mail_address']}}</td>
                         <td class="link to-list"><a>見積一覧</a></td>
                         <td class="link to-list"><a>請求一覧</a></td>
-                        <td class="link"><a href="{{ route('detail', $company['id']) }}">編集</a></td>
-                        <form action="{{route('delete')}}" method="POST">
+                        <td class="link"><a href="{{ route('companies.edit', $company['id']) }}">編集</a></td>
+                        <form action="{{route('companies.destroy', $company['id'])}}" method="POST">
                             @csrf
+                            @method('DELETE')
                             <input type="hidden" name="id" value="{{$company['id']}}">
                             <td class="link btn-delete"><input type="submit" value="削除"></td>
                         </form>

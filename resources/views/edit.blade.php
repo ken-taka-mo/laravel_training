@@ -10,8 +10,9 @@ $prefectures = config('prefectures');
                 <h1>会社編集</h1>
                 <a href="{{ url('companies') }}" class="btn-back">戻る</a>
             </div>
-            <form action="" method="POST" class="edit-form">
+            <form action="{{route('companies.update', $detail['id'])}}" method="post" class="edit-form">
                 @csrf
+                @method('PUT')
                 <div class="form-items">
                     <div class="item">
                         <h3 class="item-title">ID</h3>
