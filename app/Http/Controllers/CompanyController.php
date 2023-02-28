@@ -31,6 +31,9 @@ class CompanyController extends Controller
     public function edit($id) {
       $company = new Company;
       $detail = $company->getDetail($id);
+      if (!$detail) {
+        return redirect('companies');
+      }
       return view('edit', compact('detail'));
     }
 
