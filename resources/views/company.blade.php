@@ -1,10 +1,10 @@
 <?php
 $prefectures = config('prefectures');
 ?>
-@extends('common')
+@extends('layout.common')
 @section('title', '会社一覧')
-<body>
-<main class="list">
+@section('contents')
+    <main class="list">
         <div class="container">
             <div class="heading">
                 <h1>会社一覧</h1>
@@ -58,5 +58,4 @@ $prefectures = config('prefectures');
             {{$companies->appends(['order' => $order, 'name' => $name])->links()}}
         </div>
     </main>
-</body>
-</html>
+@endsection
