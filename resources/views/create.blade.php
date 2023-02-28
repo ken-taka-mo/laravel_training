@@ -10,7 +10,7 @@ $prefectures = config('prefectures');
                 <h1>会社登録</h1>
                 <a href="{{url('companies')}}" class="btn-back">戻る</a>
             </div>
-            <form action="" method="POST">
+            <form action="{{url('companies')}}" method="POST">
                 @csrf
                 <div class="form-items">
                     <div class="item">

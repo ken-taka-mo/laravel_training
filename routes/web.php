@@ -17,11 +17,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::controller(CompanyController::class)->group(function () {
-    Route::view('/companies/register', 'register')->name('register');
-    Route::post('/companies/register', 'store');
-    Route::post('/companies/delete', 'delete')->name('delete');
-    Route::get('/companies/edit/{id}', 'edit')->name('detail');
-    Route::post('/companies/edit/{id}', 'update');
-    Route::get('/companies', 'getCompanies')->name('companies');
-});
+Route::resource('companies', CompanyController::class);

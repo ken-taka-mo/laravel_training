@@ -8,39 +8,57 @@ use App\Models\Company;
 
 class CompanyController extends Controller
 {
-    public function getCompanies(Request $request) {
-      $name = $request['name'];
-      $order = $request['order'];
-      $company = new Company;
-      $companies = $company->getData($order, $name);
-      return view('company', compact('companies', 'name', 'order'));
-    }
-    
-    public function store(CompanyRequest $request) {
-      $company = new Company;
-      $company->store($request);
+  private $company;
+
+  public function __construct(Company $company)
+  {
+    $this->company = $company;
+  }
+  // 会社データ一覧取得
+  public function index(Request $request)
+  {
+    // パラメータのname,orderを取得
+    $order = $request['order'];
+    $name = $request['name'];
+    // $companies = Company::getCompanies($order, $name);
+    $companies = $this->company->getCompanies($order, $name);
+    return view('company', compact('companies', 'name', 'order'));
+  }
+  
+  public function create()
+  {
+    return view('create');
+  }
+  // 会社データ作成
+  // CompanyRequestでバリデーション
+  public function store(CompanyRequest $request)
+  {
+    $this->company->store($request);
+    return redirect('companies');
+  }
+
+  // 会社データ削除
+  public function destroy(Request $request)
+  {
+    $this->company->softDelete($request['id']);
+    return redirect('companies');
+  }
+
+  // 会社データ編集
+  public function edit($id)
+  {
+    $detail = $this->company->getDetail($id);
+    if (!$detail) {
       return redirect('companies');
     }
+    return view('edit', compact('detail'));
+  }
 
-    public function delete(Request $request) {
-      $company = new Company;
-      $company->softDelete($request);
-      return redirect('companies');
-    }
-
-    public function edit($id) {
-      $company = new Company;
-      $detail = $company->getDetail($id);
-      if (!$detail) {
-        return redirect('companies');
-      }
-      return view('edit', compact('detail'));
-    }
-
-    public function update($id, CompanyRequest $request) {
-      $company = new Company;
-      $company->updateDetail($id, $request->updateAttributes());
-      return redirect('companies');
-    }
-    
+  // 会社データ更新
+  public function update($id, CompanyRequest $request)
+  {
+    $this->company->updateDetail($id, $request->updateAttributes());
+    return redirect('companies');
+  }
+  
 }
