@@ -20,8 +20,8 @@ Route::get('/', function () {
 Route::controller(CompanyController::class)->group(function () {
     Route::view('/companies/register', 'register')->name('register');
     Route::post('/companies/delete', 'delete')->name('delete');
-    Route::get('/companies/detail/{id}', 'edit')->name('detail');
-    Route::post('/companies/detail/{id}', 'update');
+    Route::get('/companies/edit/{id}', 'edit')->name('detail');
+    Route::post('/companies/edit/{id}', 'update');
     Route::post('/companies/register', 'store');
     Route::get('/companies', 'getCompanies')->name('companies');
 });
