@@ -57,7 +57,7 @@ class Company extends Model
 
     public function getDetail($id)
     {
-        return $this->where('id', $id)->get();
+        return $this->where('id', $id)->first();
     }
 
     public function updateDetail($id, $request)
