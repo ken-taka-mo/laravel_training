@@ -65,6 +65,14 @@ class CompanyController extends Controller
   // 会社データ更新
   public function update($id, CompanyRequest $request)
   {
+    if ($request->has('get_address')) {
+        $formData = $request->request->all();
+        $addressData = $this->company->getAddress($request['postal_code']);
+        if (!$addressData) {
+            return redirect("companies/$id/edit")->with('form_data', $formData);
+        }
+        return redirect("companies/$id/edit")->with(['prefecture_code' => $addressData['prefecture_code'], 'address' => $addressData['address'], 'form_data' => $formData]);
+    }
     $this->company->updateDetail($id, $request->updateAttributes());
     return redirect('companies');
   }
