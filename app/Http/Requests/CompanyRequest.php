@@ -7,6 +7,9 @@ use Illuminate\Foundation\Http\FormRequest;
 class CompanyRequest extends FormRequest
 {
     public function rules() {
+        if ($this->has('get_address')) {
+            return ['postal_code' => 'required|regex:/^\d{7}$/'];
+        }
         return [
             'name' => 'required|max:64',
             'manager_name' => 'required|max:32',
@@ -22,7 +25,7 @@ class CompanyRequest extends FormRequest
     public function messages() {
         return [
             'phone_number.regex' => ':attributeは半角数字で入力してください',
-            'postal_code.regex' => ':attributeは7桁の半角数字で入力してください',
+            'postal_code.regex' => '正しい:attributeを入力してください',
             'mail_address.regex' => '正しい:attributeを入力してください',
             'prefix.regex' => ':attributeは半角英数字で入力してください'
         ];

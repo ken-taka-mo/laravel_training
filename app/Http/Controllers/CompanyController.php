@@ -24,7 +24,7 @@ class CompanyController extends Controller
     $companies = $this->company->getCompanies($order, $name);
     return view('company', compact('companies', 'name', 'order'));
   }
-  
+
   public function create()
   {
     return view('create');
@@ -33,6 +33,14 @@ class CompanyController extends Controller
   // CompanyRequestでバリデーション
   public function store(CompanyRequest $request)
   {
+    if ($request->has('get_address')) {
+        $formData = $request->request->all();
+        $addressData = $this->company->getAddress($request['postal_code']);
+        if (!$addressData) {
+            return redirect('companies/create')->with('form_data', $formData);
+        }
+        return redirect('companies/create')->with(['prefecture_code' => $addressData['prefecture_code'], 'address' => $addressData['address'], 'form_data' => $formData]);
+    }
     $this->company->store($request);
     return redirect('companies');
   }
@@ -60,5 +68,5 @@ class CompanyController extends Controller
     $this->company->updateDetail($id, $request->updateAttributes());
     return redirect('companies');
   }
-  
+
 }
