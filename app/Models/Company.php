@@ -5,11 +5,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class Company extends Model
-{   
+{
     use SoftDEletes;
-    
+
     protected $fillable = [
-        'name', 
+        'name',
         'manager_name',
         'phone_number',
         'postal_code',
@@ -21,7 +21,7 @@ class Company extends Model
 
     // companiesテーブルのデータを取得
     public function getCompanies($order, $name)
-    {   
+    {
         // orderパラメータがdesc以外の時はnullに
         if ($order != 'desc') {
             $order = null;
@@ -40,7 +40,7 @@ class Company extends Model
     }
     // 会社データ作成
     public function store($request)
-    {   
+    {
         $this->create(['name' => $request['name'],
             'manager_name' => $request['manager_name'],
             'phone_number' => $request['phone_number'],
