@@ -11,6 +11,11 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
+    // 外部APIで住所取得
+    /**
+     * 外部APIで住所取得
+     * @param int $code 郵便番号
+     */
     public function getAddress($code)
     {
         $url = "https://zipcloud.ibsnet.co.jp/api/search?zipcode=" . $code;
