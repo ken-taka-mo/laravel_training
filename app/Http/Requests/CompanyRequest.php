@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Route;
 
 class CompanyRequest extends FormRequest
 {
@@ -18,7 +19,7 @@ class CompanyRequest extends FormRequest
             'prefecture_code' => 'required|numeric|min:1|max:47',
             'address'=> 'required|max:100',
             'mail_address' => 'required|max:100|regex:/^[a-zA-Z0-9_+-]+(\.[a-zA-Z0-9_+-]+)*@[a-zA-Z0-9_+-]+(\.[a-zA-Z0-9_+-]+)*$/',
-            'prefix' => \Route::uses('store') ? 'required|regex:/^[a-zA-Z0-9]{1,8}$/' : 'filled',
+            'prefix' => Route::uses('store') ? 'required|regex:/^[a-zA-Z0-9]{1,8}$/' : 'filled',
         ];
     }
 

@@ -20,7 +20,6 @@ class CompanyController extends Controller
     // パラメータのname,orderを取得
     $order = $request['order'];
     $name = $request['name'];
-    // $companies = Company::getCompanies($order, $name);
     $companies = $this->company->getCompanies($order, $name);
     return view('company', compact('companies', 'name', 'order'));
   }
@@ -35,7 +34,7 @@ class CompanyController extends Controller
   {
     if ($request->has('get_address')) {
         $formData = $request->request->all();
-        $addressData = $this->company->getAddress($request['postal_code']);
+        $addressData = $this->getAddress($request['postal_code']);
         if (!$addressData) {
             return redirect('companies/create')->with('form_data', $formData);
         }
